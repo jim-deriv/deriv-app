@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '../icon/icon';
+import Icon from '../icon/icon.jsx';
 
 const HintBox = ({ className, icon, is_info, is_warn, is_danger, message }) => {
     return (

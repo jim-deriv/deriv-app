@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { getKebabCase } from '@deriv/shared';
 import Counter from '../counter';
-import Icon from '../icon/icon';
+import Icon from '../icon/icon.jsx';
 
 const HeaderIcon = ({ icon, is_active }) => (
     <Icon
