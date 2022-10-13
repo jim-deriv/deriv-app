@@ -11,8 +11,8 @@ type TThemedScrollbars = {
     is_only_horizontal?: boolean;
     is_only_horizontal_overlay?: boolean;
     is_scrollbar_hidden?: boolean;
-    onScroll: UIEventHandler<HTMLDivElement>;
-    refSetter: RefObject<HTMLDivElement>;
+    onScroll?: UIEventHandler<HTMLDivElement>;
+    refSetter?: RefObject<HTMLDivElement>;
     style?: React.CSSProperties;
     width?: string;
 };
@@ -34,7 +34,7 @@ const ThemedScrollbars = ({
 }: React.PropsWithChildren<TThemedScrollbars>) => {
     const [hoverRef, isHovered] = useHover(refSetter);
 
-    if (is_bypassed) return children;
+    if (is_bypassed) return <>children</>;
     return (
         <div
             data-testid='dt_themed_scrollbars'
