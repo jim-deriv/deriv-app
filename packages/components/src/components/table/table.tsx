@@ -5,7 +5,7 @@ import Header from './table-header';
 import Body from './table-body';
 import Row from './table-row';
 import Cell from './table-cell';
-import ThemedScrollbars from '../themed-scrollbars/themed-scrollbars.jsx';
+import ThemedScrollbars from '../themed-scrollbars/themed-scrollbars';
 
 type TTable = {
     className: string;
