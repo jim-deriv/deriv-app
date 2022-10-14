@@ -34,7 +34,7 @@ const ThemedScrollbars = ({
 }: React.PropsWithChildren<TThemedScrollbars>) => {
     const [hoverRef, isHovered] = useHover(refSetter);
 
-    if (is_bypassed) return <>children</>;
+    if (is_bypassed) return <React.Fragment>children</React.Fragment>;
     return (
         <div
             data-testid='dt_themed_scrollbars'
