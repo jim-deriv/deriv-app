@@ -6,6 +6,7 @@ import { roundOffDecimal, removeTrailingZeros } from 'Utils/format-value';
 import { countDecimalPlaces } from 'Utils/string';
 
 export default class FloatingRateStore extends BaseStore {
+<<<<<<< HEAD
     fixed_rate_adverts_status;
     float_rate_adverts_status;
     float_rate_offset_limit;
@@ -15,12 +16,25 @@ export default class FloatingRateStore extends BaseStore {
     is_loading;
     api_error_message = '';
     is_market_rate_changed = false;
+=======
+    @observable fixed_rate_adverts_status;
+    @observable float_rate_adverts_status;
+    @observable float_rate_offset_limit;
+    @observable fixed_rate_adverts_end_date;
+    @observable exchange_rate;
+    @observable change_ad_alert = false;
+    @observable is_loading;
+    @observable api_error_message = '';
+    @observable is_market_rate_changed = false;
+    @observable override_exchange_rate = null;
+>>>>>>> a9fda448b8916ae6314a2425619353f871792416
 
     previous_exchange_rate = null;
     current_exchange_rate = null;
 
     exchange_rate_subscription = {};
 
+<<<<<<< HEAD
     constructor(root_store) {
         // TODO: [mobx-undecorate] verify the constructor arguments and the arguments of this automatically generated super call
         super(root_store);
@@ -50,6 +64,14 @@ export default class FloatingRateStore extends BaseStore {
         });
     }
 
+=======
+    @computed
+    get market_rate() {
+        return this.exchange_rate > 0 ? this.exchange_rate : this.override_exchange_rate;
+    }
+
+    @computed
+>>>>>>> a9fda448b8916ae6314a2425619353f871792416
     get rate_type() {
         if (this.float_rate_adverts_status === 'enabled') {
             return ad_type.FLOAT;
@@ -109,15 +131,29 @@ export default class FloatingRateStore extends BaseStore {
         }
     }
 
+<<<<<<< HEAD
+=======
+    @action.bound
+    setOverrideExchangeRate(override_exchange_rate) {
+        this.override_exchange_rate = removeTrailingZeros(roundOffDecimal(parseFloat(override_exchange_rate), 6));
+    }
+
+    @action.bound
+>>>>>>> a9fda448b8916ae6314a2425619353f871792416
     fetchExchangeRate(response) {
-        const { client, ws_subscriptions } = this.root_store.general_store;
+        const { buy_sell_store, general_store } = this.root_store;
+        const { client, ws_subscriptions } = general_store;
+        const { selected_local_currency } = buy_sell_store;
+
         if (response) {
             if (response.error) {
                 this.setApiErrorMessage(response.error.message);
                 ws_subscriptions?.exchange_rate_subscription?.unsubscribe?.();
+                this.setExchangeRate(0);
             } else {
                 const { rates } = response.exchange_rates;
-                this.setExchangeRate(rates[client?.local_currency_config?.currency]);
+                const rate = rates[client?.local_currency_config?.currency] ?? rates[selected_local_currency];
+                this.setExchangeRate(rate);
                 this.setApiErrorMessage(null);
             }
         }

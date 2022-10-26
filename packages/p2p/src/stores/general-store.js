@@ -11,6 +11,7 @@ import { buy_sell } from 'Constants/buy-sell';
 import { api_error_codes } from '../constants/api-error-codes';
 
 export default class GeneralStore extends BaseStore {
+<<<<<<< HEAD
     active_index = 0;
     active_notification_count = 0;
     advertiser_id = null;
@@ -43,6 +44,41 @@ export default class GeneralStore extends BaseStore {
     user_blocked_until = null;
     is_high_risk_fully_authed_without_fa = false;
     is_modal_open = false;
+=======
+    @observable active_index = 0;
+    @observable active_notification_count = 0;
+    @observable advertiser_id = null;
+    @observable advertiser_buy_limit = null;
+    @observable advertiser_sell_limit = null;
+    @observable block_unblock_user_error = '';
+    @observable balance;
+    @observable feature_level = null;
+    @observable inactive_notification_count = 0;
+    @observable is_advertiser = false;
+    @observable is_advertiser_blocked = null;
+    @observable is_blocked = false;
+    @observable is_block_unblock_user_loading = false;
+    @observable is_block_user_modal_open = false;
+    @observable is_listed = false;
+    @observable is_loading = false;
+    @observable is_p2p_blocked_for_pa = false;
+    @observable is_restricted = false;
+    @observable nickname = null;
+    @observable nickname_error = '';
+    @observable notification_count = 0;
+    @observable order_table_type = order_list.ACTIVE;
+    @observable orders = [];
+    @observable parameters = null;
+    @observable poi_status = null;
+    @observable.ref props = {};
+    @observable review_period;
+    @observable should_show_real_name = false;
+    @observable should_show_popup = false;
+    @observable user_blocked_count = 0;
+    @observable user_blocked_until = null;
+    @observable is_high_risk_fully_authed_without_fa = false;
+    @observable is_modal_open = false;
+>>>>>>> a9fda448b8916ae6314a2425619353f871792416
 
     list_item_limit = isMobile() ? 10 : 50;
     path = {
@@ -212,14 +248,25 @@ export default class GeneralStore extends BaseStore {
             name,
         }).then(response => {
             const { sendbird_store, buy_sell_store } = this.root_store;
-            const { p2p_advertiser_create } = response;
+            const { error, p2p_advertiser_create } = response;
+            const {
+                daily_buy,
+                daily_buy_limit,
+                daily_sell,
+                daily_sell_limit,
+                id,
+                is_approved,
+                name: advertiser_name,
+            } = p2p_advertiser_create || {};
 
-            if (response.error) {
-                this.setNicknameError(response.error.message);
+            if (error) {
+                this.setNicknameError(error.message);
             } else {
-                this.setAdvertiserId(p2p_advertiser_create.id);
-                this.setIsAdvertiser(!!p2p_advertiser_create.is_approved);
-                this.setNickname(p2p_advertiser_create.name);
+                this.setAdvertiserId(id);
+                this.setAdvertiserBuyLimit(daily_buy_limit - daily_buy);
+                this.setAdvertiserSellLimit(daily_sell_limit - daily_sell);
+                this.setIsAdvertiser(!!is_approved);
+                this.setNickname(advertiser_name);
                 this.setNicknameError(undefined);
                 sendbird_store.handleP2pAdvertiserInfo(response);
                 this.toggleNicknamePopup();
@@ -245,9 +292,13 @@ export default class GeneralStore extends BaseStore {
     getWebsiteStatus() {
         requestWS({ website_status: 1 }).then(response => {
             if (response && !response.error) {
+                const { buy_sell_store } = this.root_store;
                 const { p2p_config } = response.website_status;
+                const { feature_level, local_currencies, review_period } = p2p_config || {};
 
-                this.setReviewPeriod(p2p_config.review_period);
+                this.setFeatureLevel(feature_level);
+                buy_sell_store.setLocalCurrencies(local_currencies);
+                this.setReviewPeriod(review_period);
             }
         });
     }
@@ -531,6 +582,15 @@ export default class GeneralStore extends BaseStore {
         this.block_unblock_user_error = block_unblock_user_error;
     }
 
+<<<<<<< HEAD
+=======
+    @action.bound
+    setFeatureLevel(feature_level) {
+        this.feature_level = feature_level;
+    }
+
+    @action.bound
+>>>>>>> a9fda448b8916ae6314a2425619353f871792416
     setInactiveNotificationCount(inactive_notification_count) {
         this.inactive_notification_count = inactive_notification_count;
     }
@@ -603,13 +663,19 @@ export default class GeneralStore extends BaseStore {
             if (!!response && response.error) {
                 floating_rate_store.setApiErrorMessage(response.error.message);
             } else {
-                const { fixed_rate_adverts, float_rate_adverts, float_rate_offset_limit, fixed_rate_adverts_end_date } =
-                    response.website_status.p2p_config;
+                const {
+                    fixed_rate_adverts,
+                    float_rate_adverts,
+                    float_rate_offset_limit,
+                    fixed_rate_adverts_end_date,
+                    override_exchange_rate,
+                } = response.website_status.p2p_config;
                 floating_rate_store.setFixedRateAdvertStatus(fixed_rate_adverts);
                 floating_rate_store.setFloatingRateAdvertStatus(float_rate_adverts);
                 floating_rate_store.setFloatRateOffsetLimit(float_rate_offset_limit);
                 floating_rate_store.setFixedRateAdvertsEndDate(fixed_rate_adverts_end_date || null);
                 floating_rate_store.setApiErrorMessage(null);
+                if (override_exchange_rate) floating_rate_store.setOverrideExchangeRate(override_exchange_rate);
             }
         });
     }
