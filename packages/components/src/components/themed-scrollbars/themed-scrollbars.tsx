@@ -12,7 +12,7 @@ type TThemedScrollbars = {
     is_only_horizontal_overlay?: boolean;
     is_scrollbar_hidden?: boolean;
     onScroll?: UIEventHandler<HTMLDivElement>;
-    refSetter?: RefObject<HTMLDivElement>;
+    refSetter?: RefObject<HTMLDivElement> | null;
     style?: React.CSSProperties;
     width?: string;
 };
@@ -28,7 +28,7 @@ const ThemedScrollbars = ({
     is_only_horizontal_overlay,
     is_scrollbar_hidden,
     onScroll,
-    refSetter,
+    refSetter = null,
     style = {},
     width,
 }: React.PropsWithChildren<TThemedScrollbars>) => {
