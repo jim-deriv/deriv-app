@@ -257,7 +257,7 @@ const SmartChartWithRef = React.forwardRef((props, ref) => <SmartChart innerRef=
 const ChartMarkers = observer(() => {
     const { ui, client, contract_trade } = useStore();
     const { markers_array, is_digit_contract, granularity } = contract_trade;
-    const { is_dark_theme } = ui;
+    const { is_dark_mode_on: is_dark_theme } = ui;
     const { currency } = client;
     return markers_array.map(marker => {
         const Marker = AllMarkers[marker.type];
