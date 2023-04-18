@@ -13,7 +13,6 @@ const TradeModals = observer(() => {
     const { services_error } = common;
     const {
         is_services_error_visible,
-        is_unsupported_contract_modal_visible,
         setHasOnlyForwardingContracts,
         toggleServicesErrorModal,
         toggleUnsupportedContractModal,
@@ -52,11 +51,7 @@ const TradeModals = observer(() => {
 
     return (
         <React.Fragment>
-            <UnsupportedContractModal
-                onConfirm={unsupportedContractOnConfirm}
-                onClose={unsupportedContractOnClose}
-                is_visible={is_unsupported_contract_modal_visible}
-            />
+            <UnsupportedContractModal onConfirm={unsupportedContractOnConfirm} onClose={unsupportedContractOnClose} />
 
             <MarketUnavailableModal onConfirm={marketUnavailableOnConfirm} onCancel={marketUnavailableOnCancel} />
 
