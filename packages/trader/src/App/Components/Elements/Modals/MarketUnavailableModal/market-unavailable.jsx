@@ -5,9 +5,9 @@ import { getPlatformSettings } from '@deriv/shared';
 import { localize, Localize } from '@deriv/translations';
 import { observer, useStore } from '@deriv/stores';
 
-const MarketUnavailableModal = observer(({ is_visible, onCancel, onConfirm }) => {
+const MarketUnavailableModal = observer(({ onCancel, onConfirm }) => {
     const { ui } = useStore();
-    const { disableApp, enableApp, is_loading } = ui;
+    const { disableApp, enableApp, is_loading, has_only_forward_starting_contracts: is_visible } = ui;
     return (
         <Dialog
             className='market-unavailable-modal'
@@ -38,7 +38,6 @@ const MarketUnavailableModal = observer(({ is_visible, onCancel, onConfirm }) =>
 });
 
 MarketUnavailableModal.propTypes = {
-    is_visible: PropTypes.bool,
     onCancel: PropTypes.func,
     onConfirm: PropTypes.func,
 };
