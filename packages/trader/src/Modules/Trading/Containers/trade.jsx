@@ -287,7 +287,7 @@ const ChartTrade = observer(props => {
         should_highlight_current_spot,
     } = contract_trade;
     const { all_positions } = portfolio;
-    const { is_chart_layout_default, is_chart_countdown_visible, is_dark_mode_on: is_dark_theme } = ui;
+    const { is_chart_layout_default, is_chart_countdown_visible, is_dark_mode_on } = ui;
     const { is_socket_opened, current_language, is_virtual } = common;
     const { should_show_eu_content } = client;
     const {
