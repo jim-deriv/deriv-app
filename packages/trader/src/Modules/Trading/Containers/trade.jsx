@@ -38,7 +38,6 @@ const Trade = observer(() => {
         getFirstOpenMarket,
         should_show_active_symbols_loading,
         is_chart_loading,
-        is_dark_theme,
         is_market_closed,
         is_trade_enabled,
         onChange,
@@ -58,6 +57,7 @@ const Trade = observer(() => {
         notification_messages_ui: NotificationMessages,
         has_only_forward_starting_contracts: is_market_unavailable_visible,
         should_show_multipliers_onboarding,
+        is_dark_mode_on: is_dark_theme,
     } = ui;
     const { is_eu, is_virtual } = client;
     const { network_status } = common;
@@ -287,7 +287,7 @@ const ChartTrade = observer(props => {
         should_highlight_current_spot,
     } = contract_trade;
     const { all_positions } = portfolio;
-    const { is_chart_layout_default, is_chart_countdown_visible, is_dark_mode_on } = ui;
+    const { is_chart_layout_default, is_chart_countdown_visible, is_dark_mode_on: is_dark_theme } = ui;
     const { is_socket_opened, current_language, is_virtual } = common;
     const { should_show_eu_content } = client;
     const {
