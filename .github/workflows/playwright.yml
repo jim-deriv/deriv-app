@@ -32,6 +32,7 @@ jobs:
       run: |
         cd end-to-end-test
         mkdir playwright-json-test-results
+        touch /tmp/storage-state.json
         CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
