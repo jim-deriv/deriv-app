@@ -31,6 +31,7 @@ jobs:
     - name: Run Playwright tests
       run: |
         cd end-to-end-test
+        mkdir playwright-json-test-results
         CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
