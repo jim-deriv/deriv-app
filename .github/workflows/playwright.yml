@@ -1,0 +1,58 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: npm run bootstrap && npm run build:all
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps chromium
+    - name: Install Playwright Test
+      run: |
+        cd end-to-end-test
+        npm install -D @playwright/test
+    - name: Create env file
+      run: |
+        touch .env
+        echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > end-to-end-test/.env
+    - name: Add hosts to /etc/hosts
+      run: |
+          sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
+    - name: Run Playwright tests
+      run: |
+        cd end-to-end-test
+        CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-report
+        path: end-to-end-test/playwright-report/index.html
+        retention-days: 30
+    - name: Upload JSON test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-json-results
+        path: playwright-json-test-results/
+        retention-days: 90
+    - name: Download JSON test results
+      uses: actions/download-artifact@v3
+      if: always()
+      with:
+        name: playwright-json-results
+        path: playwright-json-test-results/
+    - name: Extract JSON test results
+      run: |
+        ls -la
+        cd playwright-json-test-results
+        unzip -o playwright-json-test-results.zip

@@ -16,7 +16,7 @@ export default class ChangeEndpoint {
         await this.page.goto(process.env.APP_URL!);
         await expect(this.page).toHaveTitle('Trader | Deriv');
         await this.cookieDialogHandler();
-        await this.page.goto(`${process.env.APP_URL!}/endpoint`);
+        await this.page.goto(`${process.env.APP_URL!}endpoint`);
         await this.page.waitForSelector(
             '#app_contents > .dc-themed-scrollbars > form > .dc-input:nth-child(2) > .dc-input__container > .dc-input__field'
         );
