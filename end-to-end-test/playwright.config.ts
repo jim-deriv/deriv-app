@@ -108,7 +108,7 @@ const config: PlaywrightTestConfig = {
 
     /* Run your local dev server before starting the tests */
     webServer: {
-        command: 'cd .. && sudo npm run serve core',
+        command: 'cd .. && ls -a && sudo npm run serve core',
         url: 'https://localhost.binary.sx/',
         ignoreHTTPSErrors: true,
         reuseExistingServer: !process.env.CI,
