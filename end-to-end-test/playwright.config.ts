@@ -111,7 +111,7 @@ const config: PlaywrightTestConfig = {
         command: 'cd .. && sudo npm run serve core',
         url: 'https://localhost.binary.sx/',
         ignoreHTTPSErrors: true,
-        reuseExistingServer: true,
+        reuseExistingServer: !process.env.CI,
     },
 };
 
