@@ -34,7 +34,7 @@ jobs:
         mkdir playwright-json-test-results
         mkdir tmp
         ls
-        CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
+        CURRENT_BRANCH=${GITHUB_REF#refs/heads/} sudo npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:
