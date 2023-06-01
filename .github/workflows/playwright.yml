@@ -23,8 +23,10 @@ jobs:
         npm install -D @playwright/test
     - name: Create env file
       run: |
+        cd end-to-end-test/
         touch .env
-        echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > end-to-end-test/.env
+        echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
+        ls
     - name: Add hosts to /etc/hosts
       run: |
           sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
