@@ -41,6 +41,13 @@ jobs:
         name: playwright-report
         path: end-to-end-test/playwright-report/index.html
         retention-days: 30
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: screenshots
+        path: screenhots
+        retention-days: 90
     - name: Upload JSON test results
       uses: actions/upload-artifact@v3
       if: always()

@@ -32,6 +32,7 @@ export default class OnboardingFlow {
     async demoWizardHandler() {
         await this.page.locator('.static-dashboard-wrapper__header > h2', { hasText: 'CFDs' });
         await this.page.locator('.static-dashboard-wrapper__header > h2', { hasText: 'Multipliers' });
+        this.page.screenshot({ path: `screenshots/demo-wizard.png` });
         await this.page.locator('button[type="submit"]', { hasText: 'Next' }).click();
         await this.page.locator('button[type="submit"]', { hasText: 'Next' }).click();
         await this.page.locator('button[type="submit"]', { hasText: 'Next' }).click();
