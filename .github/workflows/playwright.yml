@@ -28,7 +28,6 @@ jobs:
         echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
         cd /tmp
         ls -a
-        touch storage-state.json
     - name: Add hosts to /etc/hosts
       run: |
           sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
