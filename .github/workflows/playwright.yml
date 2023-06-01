@@ -14,7 +14,7 @@ jobs:
       with:
         node-version: 16
     - name: Install dependencies
-      run: npm run bootstrap && npm run build:all
+      run: npm run bootstrap && npm run build:all && npm run serve core
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
     - name: Install Playwright Test
@@ -28,6 +28,7 @@ jobs:
         echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
         cd /tmp
         ls -a
+        touch storage-state.json
     - name: Add hosts to /etc/hosts
       run: |
           sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
