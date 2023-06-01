@@ -26,7 +26,7 @@ jobs:
         cd end-to-end-test/
         touch .env
         echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
-        ls
+        ls -a
     - name: Add hosts to /etc/hosts
       run: |
           sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
@@ -34,8 +34,6 @@ jobs:
       run: |
         cd end-to-end-test
         mkdir playwright-json-test-results
-        mkdir tmp
-        ls
         CURRENT_BRANCH=${GITHUB_REF#refs/heads/} sudo npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
@@ -48,7 +46,7 @@ jobs:
       if: always()
       with:
         name: screenshots
-        path: screenhots
+        path: screenshots/demo-wizard.png
         retention-days: 90
     - name: Upload JSON test results
       uses: actions/upload-artifact@v3

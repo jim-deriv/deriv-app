@@ -53,7 +53,6 @@ export default class ChangeEndpoint {
         ) {
             await this.page.click('.dc-themed-scrollbars > form > div:nth-child(4) > .dc-checkbox > .dc-checkbox__box');
         }
-        // await this.page.screenshot({ path: 'screenshot.png' });
         // if (
         //     !(await this.page.locator("input[name='show_dbot_dashboard']").isChecked()) &&
         //     process.env.ENDPOINT_PAGE_DBOT_DASHBOARD === 'true'
