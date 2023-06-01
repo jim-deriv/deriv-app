@@ -60,12 +60,9 @@ export default class ChangeEndpoint {
         // ) {
         //     await this.page.click('.dc-themed-scrollbars > form > div:nth-child(5) > .dc-checkbox > .dc-checkbox__box');
         // }
-        // if (
-        //     !(await this.page.locator("input[name='is_debug_service_worker_enabled']").isChecked()) &&
-        //     process.env.ENDPOINT_PAGE_DEBUG_SERVICE_WORKER === 'true'
-        // ) {
-        //     await this.page.click('.dc-themed-scrollbars > form > div:nth-child(6) > .dc-checkbox > .dc-checkbox__box');
-        // }
+        if (process.env.ENDPOINT_PAGE_DEBUG_SERVICE_WORKER === 'true') {
+            await this.page.getByText('Enable Service Worker registration for this URL').click();
+        }
 
         await this.page.waitForSelector('#deriv_app > #app_contents > .dc-themed-scrollbars > form > .dc-btn--primary');
         await this.page.click('#deriv_app > #app_contents > .dc-themed-scrollbars > form > .dc-btn--primary');
