@@ -33,6 +33,7 @@ jobs:
         cd end-to-end-test
         mkdir playwright-json-test-results
         mkdir tmp
+        ls
         CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
@@ -45,7 +46,7 @@ jobs:
       if: always()
       with:
         name: playwright-json-results
-        path: playwright-json-test-results/*.json
+        path: playwright-json-test-results
         retention-days: 90
     - name: Download JSON test results
       uses: actions/download-artifact@v3
