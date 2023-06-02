@@ -13,6 +13,8 @@ export default class ChangeEndpoint {
     }
 
     async changeEndpoint() {
+        // eslint-disable-next-line no-console
+        console.log(process.env.APP_URL!);
         await this.page.goto(process.env.APP_URL!);
         await expect(this.page).toHaveTitle('Trader | Deriv');
         await this.cookieDialogHandler();

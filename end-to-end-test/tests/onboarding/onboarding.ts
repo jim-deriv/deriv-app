@@ -39,8 +39,6 @@ export default class OnboardingFlow {
         await this.page.locator('button[type="submit"]', { hasText: 'Next' }).click();
     }
     async signUp() {
-        // eslint-disable-next-line no-console
-        console.log('**********************', process.env.CI, '*************************');
         await this.ChangeEndpoint.changeEndpoint();
         await this.page.goto(process.env.APP_URL!);
         await this.page.waitForSelector('#dt_signup_button');
