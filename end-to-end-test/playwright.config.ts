@@ -107,12 +107,12 @@ const config: PlaywrightTestConfig = {
     // outputDir: 'test-results/',
 
     /* Run your local dev server before starting the tests */
-    // webServer: {
-    //     command: 'cd .. && ls -a && sudo npm run serve core',
-    //     url: 'https://localhost.binary.sx/',
-    //     ignoreHTTPSErrors: true,
-    //     reuseExistingServer: !process.env.CI,
-    // },
+    webServer: {
+        command: 'cd .. && ls -a && sudo npm run serve core & sleep 10',
+        url: 'https://localhost.binary.sx/',
+        ignoreHTTPSErrors: true,
+        reuseExistingServer: !process.env.CI,
+    },
 };
 
 export default config;

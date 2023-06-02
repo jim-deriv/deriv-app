@@ -32,8 +32,18 @@ jobs:
         touch storage-state.json
     - name: Add hosts to /etc/hosts
       run: |
-          sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
-          sudo npm run serve core & sleep 10
+          sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts 
+    - name: Download JSON test results
+      uses: actions/download-artifact@v3
+      if: always()
+      with:
+        name: playwright-json-results
+        path: playwright-json-test-results/
+    - name: Extract JSON test results
+      run: |
+        ls -la
+        cd playwright-json-test-results
+        unzip -o playwright-json-test-results.zip
     - name: Run Playwright tests
       run: |
         cd end-to-end-test
@@ -59,14 +69,3 @@ jobs:
         name: playwright-json-results
         path: playwright-json-test-results
         retention-days: 90
-    - name: Download JSON test results
-      uses: actions/download-artifact@v3
-      if: always()
-      with:
-        name: playwright-json-results
-        path: playwright-json-test-results/
-    - name: Extract JSON test results
-      run: |
-        ls -la
-        cd playwright-json-test-results
-        unzip -o playwright-json-test-results.zip
