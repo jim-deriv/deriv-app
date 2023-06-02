@@ -14,7 +14,8 @@ jobs:
       with:
         node-version: 16
     - name: Install dependencies
-      run: npm run bootstrap && npm run build:all
+      run: |
+        npm run bootstrap && npm run build:all
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
     - name: Install Playwright Test
@@ -32,7 +33,10 @@ jobs:
     - name: Add hosts to /etc/hosts
       run: |
           sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
-          sudo npm run serve core
+          sudo npm run serve core &
+          background: true
+    - name: Wait for React app to start
+      run: sleep 10
     - name: Run Playwright tests
       run: |
         cd end-to-end-test
