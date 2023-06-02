@@ -3,7 +3,7 @@ on:
   push:
     branches: [ test_e2e ]
   pull_request:
-    branches: [ test_e2e ]
+    types: [opened, synchronize, reopened ]
 jobs:
   test:
     timeout-minutes: 60
@@ -33,10 +33,7 @@ jobs:
     - name: Add hosts to /etc/hosts
       run: |
           sudo echo "127.0.0.1 localhost.binary.sx" | sudo tee -a /etc/hosts
-          sudo npm run serve core &
-          background: true
-    - name: Wait for React app to start
-      run: sleep 10
+          sudo npm run serve core & sleep 10
     - name: Run Playwright tests
       run: |
         cd end-to-end-test
