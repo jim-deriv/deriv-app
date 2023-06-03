@@ -26,8 +26,9 @@ jobs:
         run: |
           cd end-to-end-test
           npm install -D @playwright/test
-      - name: Create env file
+      - name: Create necessary files
         run: |
+          touch /tmp/storage-state.json
           cd end-to-end-test/
           touch .env
           echo "${{ secrets.PRIVATE_PLAYWRIGHT_ENV_FILE }}" > .env
