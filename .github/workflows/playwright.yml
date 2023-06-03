@@ -29,10 +29,8 @@ jobs:
         run: |
           cd end-to-end-test/
           touch .env
-          echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
-          echo "TARGET URL: ${{ github.event.deployment_status.target_url }}"
-          echo "Deployment URL: ${{ github.event.deployment_status.deployment_url }}"
-          echo "CI=true" >> .env
+          echo "${{ secrets.PRIVATE_PLAYWRIGHT_ENV_FILE }}" > .env
+          echo "${{ env.PUBLIC_PLAYWRIGHT_ENV_FILE }}" > .env
       - name: Capture Vercel preview URL
         id: vercel_preview_url
         uses: binary-com/vercel-preview-url-action@v1.0.5
@@ -44,7 +42,12 @@ jobs:
       - name: Update APP URL in env file if it's a PR
         run: |
           echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}" >> end-to-end-test/.env
-        if: github.event_name != 'push' || github.event_name != 'deployment_status'
+        if: github.event_name != 'push'
+      - name: Run Playwright tests
+        run: |
+          cd end-to-end-test
+          mkdir playwright-json-test-results
+          CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
 # name: Playwright Tests
 # on:
 #   deployment_status:
