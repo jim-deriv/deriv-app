@@ -99,6 +99,8 @@ export default class OnboardingFlow {
             (RISK_LEVEL === 'low_risk'
                 ? process.env.ACCOUNT_RESIDENCE_LOW_RISK
                 : process.env.ACCOUNT_RESIDENCE_HIGH_RISK) || '';
+        // eslint-disable-next-line no-console
+        console.log('################# ACCOUNT_CITIZENSHIP: ', ACCOUNT_RESIDENCE, '#################');
         await expect(this.page.getByText(ACCOUNT_RESIDENCE)).toBeVisible();
         await this.page.getByText(ACCOUNT_RESIDENCE).click();
         await this.page.click('#dt_core_set-citizenship-form_signup-citizenship-select');

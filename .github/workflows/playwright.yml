@@ -20,7 +20,7 @@ jobs:
       #   run: npm ci
       - name: Install Playwright Browsers
         run: |
-          npm install -g playwright
+          npm install -g playwright@1.34
           npx playwright install --with-deps chromium
       - name: Install Playwright
         run: |
@@ -63,7 +63,7 @@ jobs:
         if: always()
         with:
           name: playwright-json-results
-          path: playwright-json-test-results
+          path: playwright-json-test-results/
           retention-days: 90
 # name: Playwright Tests
 # on:
