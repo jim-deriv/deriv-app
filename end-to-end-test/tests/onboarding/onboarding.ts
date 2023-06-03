@@ -99,12 +99,10 @@ export default class OnboardingFlow {
             (RISK_LEVEL === 'low_risk'
                 ? process.env.ACCOUNT_RESIDENCE_LOW_RISK
                 : process.env.ACCOUNT_RESIDENCE_HIGH_RISK) || '';
-        // eslint-disable-next-line no-console
-        console.log('################# ACCOUNT_CITIZENSHIP: ', ACCOUNT_RESIDENCE, '#################');
-        await expect(this.page.getByText(ACCOUNT_RESIDENCE)).toBeVisible();
+        await expect(this.page.getByText(ACCOUNT_RESIDENCE, { exact: true })).toBeVisible();
         await this.page.getByText(ACCOUNT_RESIDENCE).click();
         await this.page.click('#dt_core_set-citizenship-form_signup-citizenship-select');
-        await expect(this.page.getByText(ACCOUNT_CITIZENSHIP)).toBeVisible();
+        await expect(this.page.getByText(ACCOUNT_CITIZENSHIP, { exact: true })).toBeVisible();
         await this.page.getByText(ACCOUNT_CITIZENSHIP).click();
         await this.page.getByRole('dialog').getByRole('button', { name: 'Next' }).click();
         await expect(this.page.getByText(/Keep your account secure/)).toBeVisible();
