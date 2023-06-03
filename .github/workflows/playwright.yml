@@ -1,5 +1,8 @@
 name: Playwright Tests
 on:
+  push:
+    branches:
+      - master
   deployment_status:
 env:
   APP_URL: ${{ github.event.deployment_status.target_url }}
@@ -27,19 +30,17 @@ jobs:
         uses: binary-com/vercel-preview-url-action@v1.0.5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          preview_url_regexp: \[Visit Preview\]\((.*?.sx)\)
       - name: Set APP URL if it's a PR 
         run: |
-          APP_URL=${{ steps.vercel_preview_url.outputs.preview_url }}
-          echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
-          echo "TARGET URL: ${{ github.event.deployment_status.target_url }}"
+          echo "APP_URL ENV: ${{ env.APP_URL}}"
+          APP_URL=${{ github.event.deployment_status.target_url }}
       - name: Create env file
         run: |
           cd end-to-end-test/
           touch .env
           echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
           echo "TARGET URL: ${{ github.event.deployment_status.target_url }}"
-          echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
+          echo "APP_URL=${{ github.event.deployment_status.target_url }}" >> .env
           echo "CI=true" >> .env
           ls -la    
 
