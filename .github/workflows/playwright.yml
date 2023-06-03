@@ -31,6 +31,7 @@ jobs:
           cd /tmp/
           ls -la
           touch storage-state.json
+          echo "{}" > storage-state.json
           ls -la
       - name: Create env file
         run: |
