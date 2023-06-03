@@ -26,6 +26,12 @@ jobs:
         run: |
           cd end-to-end-test
           npm install -D @playwright/test
+      - name: Create storage file
+        run: |
+          cd /tmp/
+          ls -la
+          touch storage-state.json
+          ls -la
       - name: Create env file
         run: |
           cd end-to-end-test/
