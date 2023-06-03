@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize, reopened, ready_for_review]
   deployment_status:
 jobs:
   run-e2e-tests:
