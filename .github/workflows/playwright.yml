@@ -3,10 +3,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
-    types: [opened, synchronize, reopened, ready_for_review]
   deployment_status:
 jobs:
   run-e2e-tests:
@@ -35,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # preview_url_regexp: \[Visit Preview\]\((.*?.sx)\)
           preview_url_regexp: \[Visit Preview\]\((.*?.vercel.app)\)
-        if: github.ref != 'refs/heads/master' && github.event_name == 'pull_request' 
+        if: github.event_name != 'push'
       # - name: Set APP URL if it's a PR 
       #   run: |
       #     APP_URL=${{ steps.vercel_preview_url.outputs.preview_url }}
