@@ -84,10 +84,6 @@ export default class OnboardingFlow {
             }
         }
 
-        this.page.waitForSelector('#dt_core_set-residence-form_signup-residence-select').then(async () => {
-            await this.page.click('#dt_core_set-residence-form_signup-residence-select');
-        });
-
         const RISK_LEVEL = process.env.RISK_LEVEL;
 
         const ACCOUNT_CITIZENSHIP =
@@ -99,8 +95,11 @@ export default class OnboardingFlow {
             (RISK_LEVEL === 'low_risk'
                 ? process.env.ACCOUNT_RESIDENCE_LOW_RISK
                 : process.env.ACCOUNT_RESIDENCE_HIGH_RISK) || '';
-        await expect(this.page.getByText(ACCOUNT_RESIDENCE, { exact: true })).toBeVisible();
-        await this.page.getByText(ACCOUNT_RESIDENCE).click();
+        this.page.waitForSelector('#dt_core_set-residence-form_signup-residence-select').then(async () => {
+            await this.page.click('#dt_core_set-residence-form_signup-residence-select');
+            await expect(this.page.getByText(ACCOUNT_RESIDENCE, { exact: true })).toBeVisible();
+            await this.page.getByText(ACCOUNT_RESIDENCE).click();
+        });
         await this.page.click('#dt_core_set-citizenship-form_signup-citizenship-select');
         await expect(this.page.getByText(ACCOUNT_CITIZENSHIP, { exact: true })).toBeVisible();
         await this.page.getByText(ACCOUNT_CITIZENSHIP).click();
