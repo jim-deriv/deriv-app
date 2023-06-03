@@ -26,12 +26,6 @@ jobs:
         run: |
           cd end-to-end-test
           npm install -D @playwright/test
-      - name: Create storage file
-        run: |
-          cd /tmp/
-          ls -la
-          touch storage-state.json
-          ls -la
       - name: Create env file
         run: |
           cd end-to-end-test/
@@ -56,7 +50,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           cd end-to-end-test
-          sudo npx playwright test --trace on
+          npx playwright test --trace on
       - name: Upload Playwright report
         uses: actions/upload-artifact@v3
         if: always()

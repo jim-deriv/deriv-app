@@ -110,5 +110,6 @@ export default class OnboardingFlow {
         await expect(this.page.getByText(/Start trading/)).toBeEnabled();
         await this.page.getByText(/Start trading/).click();
         if (this.page.url().includes('onboarding')) await this.demoWizardHandler();
+        await this.page.context().storageState({ path: '/tmp/storage-state.json' });
     }
 }
