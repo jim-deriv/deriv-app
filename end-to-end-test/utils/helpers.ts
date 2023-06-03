@@ -93,10 +93,6 @@ export const checkPerformanceResults = async (
     test_title: string,
     performance_data: TPerformanceResults
 ) => {
-    // eslint-disable-next-line no-console
-    console.log('process.env.CURRENT_BRANCH: ', process.env.CURRENT_BRANCH);
-    // eslint-disable-next-line no-console
-    console.log('CURRENT_BRANCH is master: ', process.env.CURRENT_BRANCH === 'master');
     if (process.env.CURRENT_BRANCH === 'master') {
         savePerformanceData(browserName, test_title, performance_data);
     } else {
