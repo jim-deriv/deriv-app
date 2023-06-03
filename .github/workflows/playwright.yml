@@ -30,7 +30,7 @@ jobs:
           cd end-to-end-test/
           touch .env
           echo "${{ secrets.PRIVATE_PLAYWRIGHT_ENV_FILE }}" > .env
-          echo "${{ env.PUBLIC_PLAYWRIGHT_ENV_FILE }}" > .env
+          echo "${{ vars.PUBLIC_PLAYWRIGHT_ENV_FILE }}" > .env
       - name: Capture Vercel preview URL
         id: vercel_preview_url
         uses: binary-com/vercel-preview-url-action@v1.0.5
@@ -47,7 +47,7 @@ jobs:
         run: |
           cd end-to-end-test
           mkdir playwright-json-test-results
-          CURRENT_BRANCH=${GITHUB_REF#refs/heads/} npx playwright test
+          CURRENT_BRANCH=${GITHUB_REF#refs/heads/} sudo npx playwright test
 # name: Playwright Tests
 # on:
 #   deployment_status:
