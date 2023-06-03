@@ -52,7 +52,7 @@ jobs:
         if: github.event_name != 'push'
       - name: Update APP URL in env file if it's a PR
         run: |
-          echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}" >> end-to-end-test/.env
+          echo "APP_URL=${{ steps.vercel_preview_url.outputs.vercel_preview_url }}" >> end-to-end-test/.env
         if: github.event_name != 'push'
       - name: Run Playwright tests
         run: |
