@@ -1,7 +1,5 @@
 name: Playwright Tests
 on:
-  issue_comment:
-    types: [created, edited]
   deployment_status:
 jobs:
   run-e2e-tests:
@@ -43,12 +41,6 @@ jobs:
         run: |
           echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}" >> end-to-end-test/.env
         if: github.event_name != 'push' || github.event_name != 'deployment_status'
-      - name: Display deployment details
-        run: |
-            echo "Deployment Event: ${{ github.event }}"
-            echo "Deployment Status: ${{ github.event.deployment_status }}"
-            echo "Deployment: ${{ github.event.deployment }}"
-            echo "Comment body: ${{ github.event.comment.body }}"
 # name: Playwright Tests
 # on:
 #   deployment_status:
