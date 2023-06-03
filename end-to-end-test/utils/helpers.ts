@@ -93,7 +93,7 @@ export const checkPerformanceResults = async (
     test_title: string,
     performance_data: TPerformanceResults
 ) => {
-    if (process.env.CURRENT_BRANCH === 'test_e2e') {
+    if (process.env.CURRENT_BRANCH === 'master') {
         savePerformanceData(browserName, test_title, performance_data);
     } else {
         const comparison_data = await getComparisonPerformanceData(browserName, test_title);
