@@ -50,7 +50,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           cd end-to-end-test
-          npx playwright test --trace on
+          sudo npx playwright test --trace on
       - name: Upload Playwright report
         uses: actions/upload-artifact@v3
         if: always()
