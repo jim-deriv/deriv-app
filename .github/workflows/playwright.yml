@@ -31,17 +31,18 @@ jobs:
           # preview_url_regexp: \[Visit Preview\]\((.*?.sx)\)
           preview_url_regexp: \[Visit Preview\]\((.*?.vercel.app)\)
         if: github.ref != 'refs/heads/master' && github.event_name == 'pull_request' 
-      - name: Set APP URL if it's a PR 
-        run: |
-          APP_URL=${{ steps.vercel_preview_url.outputs.preview_url }}
-          echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
-          echo "TARGET URL: ${{ github.event.deployment_status.target_url }}"
+      # - name: Set APP URL if it's a PR 
+      #   run: |
+      #     APP_URL=${{ steps.vercel_preview_url.outputs.preview_url }}
+      #     echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
+      #     echo "TARGET URL: ${{ github.event.deployment_status.target_url }}"
       - name: Create env file
         run: |
           cd end-to-end-test/
           touch .env
           echo "${{ secrets.PLAYWRIGHT_ENV_FILE }}" > .env
           echo "TARGET URL: ${{ github.event.deployment_status.target_url }}"
+          echo "Deployment URL: ${{ github.event.deployment_status.deployment_url }}"
           echo "PREVIEW URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
           echo "CI=true" >> .env
           ls -la    
