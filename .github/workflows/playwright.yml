@@ -59,7 +59,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           cd end-to-end-test
-          sudo npx playwright test
+          npx playwright test
       - name: Upload Playwright report
         uses: actions/upload-artifact@v3
         if: always()
