@@ -2,7 +2,7 @@ name: Playwright Tests
 on:
   push:
     branches:
-      - master
+      - e2e_new
   issue_comment:
     types: [edited]
 jobs:
@@ -49,8 +49,8 @@ jobs:
         uses: binary-com/vercel-preview-url-action@v1.0.5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # preview_url_regexp: \[Visit Preview\]\((.*?.sx)\)
-          preview_url_regexp: \[Visit Preview\]\((.*?.vercel.app)\)
+          preview_url_regexp: \[Visit Preview\]\((.*?.sx)\)
+          # preview_url_regexp: \[Visit Preview\]\((.*?.vercel.app)\)
         if: github.event_name != 'push'
       - name: Update APP URL in env file if it's a PR
         run: |
