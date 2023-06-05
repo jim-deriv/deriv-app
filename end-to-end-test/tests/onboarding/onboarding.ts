@@ -42,11 +42,13 @@ export default class OnboardingFlow {
         await this.ChangeEndpoint.changeEndpoint();
         await this.page.goto(process.env.APP_URL!);
         await this.page.waitForSelector('#dt_signup_button');
+        await this.page.screenshot({ path: `screenshots/signup_page.png` });
         const [newPage] = await Promise.all([
             this.page.context().waitForEvent('page'), // get `context` by destructuring with `page` in the test params; 'page' is a built-in event, and **you must wait for this like this,**, or `newPage` will just be the response object, rather than an actual Playwright page object.
             await this.page.click('#dt_signup_button'),
         ]);
         this.signupPage = newPage;
+        await this.signupPage.screenshot({ path: `screenshots/signup_newPage.png` });
         await suspend(10000);
         await this.updateServerURLAndAppIDInLocalStorage();
         await this.signupPage.waitForLoadState();
@@ -64,6 +66,7 @@ export default class OnboardingFlow {
             },
         });
         await mailPage.goto(`https://${process.env.ENDPOINT!}/events`);
+        await mailPage.screenshot({ path: `screenshots/signup_mailPage.png` });
         let hrefs = await mailPage.evaluate(() => {
             return Array.from(document.links)
                 .filter(item => item.href.endsWith('_account_opening_new.html'))
@@ -97,7 +100,7 @@ export default class OnboardingFlow {
                 : process.env.ACCOUNT_RESIDENCE_HIGH_RISK) || '';
         await this.page.waitForSelector('#dt_core_set-residence-form_signup-residence-select');
         await this.page.click('#dt_core_set-residence-form_signup-residence-select');
-        // await expect(this.page.getByText(ACCOUNT_RESIDENCE, { exact: true })).toBeVisible();
+        await expect(this.page.getByText(ACCOUNT_RESIDENCE)).toBeVisible();
         await this.page.getByText(ACCOUNT_RESIDENCE).click();
         await this.page.click('#dt_core_set-citizenship-form_signup-citizenship-select');
         await expect(this.page.getByText(ACCOUNT_CITIZENSHIP, { exact: true })).toBeVisible();
@@ -110,6 +113,5 @@ export default class OnboardingFlow {
         await expect(this.page.getByText(/Start trading/)).toBeEnabled();
         await this.page.getByText(/Start trading/).click();
         if (this.page.url().includes('onboarding')) await this.demoWizardHandler();
-        await this.page.context().storageState({ path: '/tmp/storage-state.json' });
     }
 }
