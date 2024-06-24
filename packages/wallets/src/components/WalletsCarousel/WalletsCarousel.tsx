@@ -1,27 +1,27 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useActiveWalletAccount } from '@deriv/api-v2';
 import { displayMoney } from '@deriv/api-v2/src/utils';
-import { TSubscribedBalance } from '../../types';
 import { AccountsList } from '../AccountsList';
 import { WalletsCarouselContent } from '../WalletsCarouselContent';
 import { WalletsCarouselHeader } from '../WalletsCarouselHeader';
 import './WalletsCarousel.scss';
+import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 
-const WalletsCarousel: React.FC<TSubscribedBalance> = ({ balance }) => {
+const WalletsCarousel = () => {
     const { data: activeWallet, isLoading: isActiveWalletLoading } = useActiveWalletAccount();
     const [hideWalletsCarouselHeader, setHideWalletsCarouselHeader] = useState(true);
     const contentRef = useRef(null);
 
-    const { data: balanceData, isLoading: isBalanceLoading } = balance;
+    const { data: balanceData } = useSubscribedBalance();
 
     const displayedBalance = useMemo(() => {
-        return displayMoney?.(
-            balanceData?.accounts?.[activeWallet?.loginid ?? '']?.balance ?? 0,
-            activeWallet?.currency || '',
-            {
-                fractional_digits: activeWallet?.currency_config?.fractional_digits,
-            }
-        );
+        const balance = balanceData?.accounts?.[activeWallet?.loginid ?? '']?.balance;
+
+        if (balance === undefined) return;
+
+        return displayMoney?.(balance, activeWallet?.currency || '', {
+            fractional_digits: activeWallet?.currency_config?.fractional_digits,
+        });
     }, [balanceData, activeWallet]);
 
     // useEffect hook to handle event for hiding/displaying WalletsCarouselHeader
@@ -58,14 +58,13 @@ const WalletsCarousel: React.FC<TSubscribedBalance> = ({ balance }) => {
                         currency={activeWallet?.currency || 'USD'}
                         hidden={hideWalletsCarouselHeader}
                         isDemo={activeWallet?.is_virtual}
-                        isLoading={isBalanceLoading}
                     />
                 )}
                 <div ref={contentRef}>
                     <WalletsCarouselContent />
                 </div>
             </div>
-            <AccountsList balance={balance} />
+            <AccountsList />
         </div>
     );
 };
