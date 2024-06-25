@@ -4,10 +4,15 @@ import { defineViewportHeight } from './utils/utils';
 import { WalletLanguageSidePanel } from './components';
 import { Router } from './routes';
 import './AppContent.scss';
+import { useAuthorize, useBalanceSubscription } from '@deriv/api-v2';
+import useSubscribedBalance from './hooks/useSubscribedBalance';
 
 const AppContent: React.FC = () => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const { i18n } = useTranslation();
+    const { data: balanceData, isSubscribed, subscribe, unsubscribe, ...rest } = useBalanceSubscription();
+    const { isSuccess } = useAuthorize();
+    const { setBalanceData } = useSubscribedBalance();
 
     useEffect(() => {
         const handleShortcutKey = (event: globalThis.KeyboardEvent) => {
@@ -26,6 +31,21 @@ const AppContent: React.FC = () => {
     useEffect(() => {
         defineViewportHeight();
     }, []);
+
+    useEffect(() => {
+        if (!isSuccess) return;
+        if (isSubscribed) unsubscribe();
+        subscribe({
+            account: 'all',
+        });
+        return () => {
+            if (isSubscribed) unsubscribe();
+        };
+    }, [balanceData, isSubscribed, isSuccess, subscribe, unsubscribe]);
+
+    useEffect(() => {
+        setBalanceData({ data: balanceData, ...rest });
+    }, [balanceData, rest, setBalanceData]);
 
     return (
         <div className='wallets-app' key={`wallets_app_${i18n.language}`}>
