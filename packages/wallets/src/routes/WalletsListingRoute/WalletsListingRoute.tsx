@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react';
+import React, { lazy } from 'react';
 import {
     WalletListHeader,
     WalletsAddMoreCarousel,
