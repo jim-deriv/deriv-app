@@ -26,6 +26,11 @@ class Observable<T> {
         this.subscribers.forEach(listener => listener(this.value)); // notify all subscribers
     }
 
+    /**
+     * @description Subscribes to the observable
+     * @param subscriber the observer function
+     * @returns cleanup function to unsubscribe the subscriber when the component unmounts.
+     */
     subscribe(subscriber: Subscriber<T>): () => void {
         this.subscribers.add(subscriber);
 
@@ -46,7 +51,7 @@ const balanceStore = new Observable<TBalance | undefined>(undefined);
 const useSubscribedBalance = () => {
     const [balance, setBalance] = useState(balanceStore.get());
     useEffect(() => {
-        return balanceStore.subscribe(setBalance); // subscribe setBalance to the balance store
+        return balanceStore.subscribe(setBalance); // subscribe setBalance to the balance store and return the cleanup function
     }, []);
 
     return {
