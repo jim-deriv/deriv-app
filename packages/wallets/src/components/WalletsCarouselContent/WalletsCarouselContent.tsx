@@ -1,12 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import useEmblaCarousel, { EmblaCarouselType, EmblaEventType } from 'embla-carousel-react';
 import { useHistory } from 'react-router-dom';
-import {
-    useActiveWalletAccount,
-    useBalanceSubscription,
-    useCurrencyConfig,
-    useMobileCarouselWalletsList,
-} from '@deriv/api-v2';
+import { useActiveWalletAccount, useCurrencyConfig, useMobileCarouselWalletsList } from '@deriv/api-v2';
 import { displayMoney } from '@deriv/api-v2/src/utils';
 import useWalletAccountSwitcher from '../../hooks/useWalletAccountSwitcher';
 import { THooks } from '../../types';
@@ -15,6 +10,7 @@ import { WalletsCarouselLoader } from '../SkeletonLoader';
 import { WalletCard } from '../WalletCard';
 import { WalletListCardActions } from '../WalletListCardActions';
 import './WalletsCarouselContent.scss';
+import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 
 const numberWithinRange = (number: number, min: number, max: number): number => Math.min(Math.max(number, min), max);
 
@@ -33,13 +29,8 @@ const WalletsCarouselContent: React.FC = () => {
 
     const { data: walletAccountsList, isLoading: isWalletAccountsListLoading } = useMobileCarouselWalletsList();
     const { data: activeWallet, isLoading: isActiveWalletLoading } = useActiveWalletAccount();
-    const {
-        data: balanceData,
-        isLoading: isBalanceLoading,
-        isSubscribed,
-        subscribe,
-        unsubscribe,
-    } = useBalanceSubscription();
+    const { data: balanceData } = useSubscribedBalance();
+
     const { isLoading: isCurrencyConfigLoading } = useCurrencyConfig();
 
     const [selectedLoginId, setSelectedLoginId] = useState('');
@@ -175,17 +166,10 @@ const WalletsCarouselContent: React.FC = () => {
                 if (index !== -1) {
                     walletsCarouselEmblaApi?.scrollTo(index);
                 }
-                if (isSubscribed) unsubscribe();
-                subscribe({ loginid: selectedLoginId });
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedLoginId, walletAccountsList]);
-
-    // unsubscribe to the balance call if the whole component unmounts
-    useEffect(() => {
-        return () => unsubscribe();
-    }, [unsubscribe]);
 
     // initial loading
     useEffect(() => {
@@ -248,11 +232,10 @@ const WalletsCarouselContent: React.FC = () => {
                         {walletAccountsList?.map((account, index) => (
                             <WalletCard
                                 balance={
-                                    !isBalanceLoading &&
                                     account.loginid === activeWallet?.loginid &&
-                                    balanceData.loginid === selectedLoginId
+                                    balanceData?.loginid === selectedLoginId
                                         ? displayMoney(
-                                              balanceData.balance ?? account.balance,
+                                              balanceData?.accounts?.[account.loginid]?.balance ?? account.balance,
                                               activeWallet?.currency ?? '',
                                               {
                                                   fractional_digits: activeWallet?.currency_config?.fractional_digits,

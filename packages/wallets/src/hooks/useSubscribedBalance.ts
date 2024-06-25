@@ -7,6 +7,7 @@ type TBalance = Omit<
 >;
 
 type Subscriber<T> = (value: T) => void;
+
 class Observable<T> {
     private subscribers = new Set<Subscriber<T>>();
 

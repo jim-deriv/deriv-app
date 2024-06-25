@@ -8,7 +8,6 @@ import type {
     useAuthentication,
     useAuthorize,
     useAvailableMT5Accounts,
-    useBalanceSubscription,
     useCreateMT5Account,
     useCreateOtherCFDAccount,
     useCreateWallet,
