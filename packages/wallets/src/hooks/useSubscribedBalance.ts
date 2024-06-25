@@ -46,17 +46,15 @@ const balanceStore = new Observable<TBalance | undefined>(undefined);
 const useSubscribedBalance = () => {
     const [balance, setBalance] = useState(balanceStore.get());
     useEffect(() => {
-        balanceStore.subscribe(setBalance); // subscribe setBalance to the balance store
+        return balanceStore.subscribe(setBalance); // subscribe setBalance to the balance store
     }, []);
 
-    const actions = useMemo(() => {
-        return {
-            setBalanceData: (data: TBalance) => {
-                balanceStore.set(data);
-            },
-        };
-    }, []);
-    return { ...balance, ...actions };
+    return {
+        ...balance,
+        setBalanceData: (data: TBalance) => {
+            balanceStore.set(data);
+        },
+    };
 };
 
 export default useSubscribedBalance;
