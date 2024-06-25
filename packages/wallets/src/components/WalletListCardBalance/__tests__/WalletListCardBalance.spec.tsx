@@ -2,18 +2,22 @@ import React from 'react';
 import { useActiveWalletAccount } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import WalletListCardBalance from '../WalletListCardBalance';
+import useSubscribedBalance from '../../../hooks/useSubscribedBalance';
 
 jest.mock('@deriv/api-v2', () => ({
     useActiveWalletAccount: jest.fn(),
 }));
 
+jest.mock('../../../hooks/useSubscribedBalance', () => jest.fn());
+
 describe('WalletListCardBalance', () => {
     it('displays the loader when the balance is loading', () => {
-        (useActiveWalletAccount as jest.Mock).mockReturnValue({
+        (useActiveWalletAccount as jest.Mock).mockReturnValueOnce({
             data: null,
             isInitializing: true,
         });
 
+        (useSubscribedBalance as jest.Mock).mockReturnValue({});
         render(<WalletListCardBalance />);
 
         expect(screen.getByTestId('dt_wallet_list_card_balance_loader')).toBeInTheDocument();
@@ -27,6 +31,16 @@ describe('WalletListCardBalance', () => {
                 loginid: '123',
             },
             isInitializing: false,
+        });
+        (useSubscribedBalance as jest.Mock).mockReturnValue({
+            data: {
+                accounts: {
+                    '123': {
+                        balance: 100,
+                    },
+                },
+            },
+            setBalanceData: jest.fn(),
         });
 
         render(<WalletListCardBalance />);
