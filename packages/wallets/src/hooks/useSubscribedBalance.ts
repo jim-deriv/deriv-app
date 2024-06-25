@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useBalanceSubscription } from '@deriv/api-v2';
 
 type TBalance = Omit<
