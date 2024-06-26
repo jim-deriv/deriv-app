@@ -28,14 +28,18 @@ const DerivAppsTradingAccount = () => {
                     <WalletText size='sm'>Options</WalletText>
                     <WalletListCardBadge isDemo={activeWallet?.is_virtual} label={activeWallet?.landing_company_name} />
                 </div>
-                {balance === undefined ? (
+                {balanceData === undefined ? (
                     <div className='wallets-skeleton wallets-deriv-apps-balance-loader' />
                 ) : (
                     <WalletText size='sm' weight='bold'>
-                        {displayMoney(balance, activeLinkedToTradingAccount?.currency_config?.display_code || 'USD', {
-                            fractional_digits: activeLinkedToTradingAccount?.currency_config?.fractional_digits,
-                            preferred_language: authorizeData?.preferred_language,
-                        })}
+                        {displayMoney(
+                            balance ?? 0,
+                            activeLinkedToTradingAccount?.currency_config?.display_code || 'USD',
+                            {
+                                fractional_digits: activeLinkedToTradingAccount?.currency_config?.fractional_digits,
+                                preferred_language: authorizeData?.preferred_language,
+                            }
+                        )}
                     </WalletText>
                 )}
                 <WalletText color='less-prominent' lineHeight='sm' size='xs' weight='bold'>
