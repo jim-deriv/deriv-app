@@ -6,10 +6,10 @@ import { WalletText } from '../Base';
 import './WalletListCardBalance.scss';
 
 const WalletListCardBalance = () => {
-    const { data: activeWallet, isInitializing: isActiveWalletInitializing } = useActiveWalletAccount();
+    const { data: activeWallet, isInitializing: isActiveWalletInitializing, isLoading } = useActiveWalletAccount();
     const { data: balanceData } = useSubscribedBalance();
     const balance = balanceData?.accounts?.[activeWallet?.loginid ?? '']?.balance;
-    const showLoader = balance === undefined || isActiveWalletInitializing;
+    const showLoader = balance === undefined || isActiveWalletInitializing || isLoading;
 
     return (
         <div className='wallets-balance__container'>
