@@ -52,7 +52,7 @@ const WalletListCardDropdown = () => {
                                 </WalletText>
                                 {balance === undefined ? (
                                     <div
-                                        className='wallets-skeleton wallets-list-card-dropdown__balance--loader'
+                                        className='wallets-skeleton wallets-list-card-dropdown__balance-loader'
                                         data-testid='dt_wallets_list_card_dropdown_balance_loader'
                                     />
                                 ) : (
