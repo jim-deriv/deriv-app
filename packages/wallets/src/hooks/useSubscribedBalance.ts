@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useBalanceSubscription } from '@deriv/api-v2';
 
-type TBalance = Omit<
-    ReturnType<typeof useBalanceSubscription>,
-    'isIdle' | 'isSubscribed' | 'subscribe' | 'unsubscribe' | 'unsubscribe'
->;
+type TBalance = ReturnType<typeof useBalanceSubscription>['data'];
 
 type Subscriber<T> = (value: T) => void;
 
@@ -45,8 +42,10 @@ class Observable<T> {
 const balanceStore = new Observable<TBalance | undefined>(undefined);
 
 /**
- * @description Custom hook to subscribe to balance updates
- * @returns {TBalance} balance - The balance data
+ * Custom hook that manages subscription to balance changes from `balanceStore`.
+ * Retrieves initial balance and subscribes to future updates.
+ * @returns An object containing the current balance and a function to update it.
+ * @example const { data: balanceData, setBalanceData } = useSubscribedBalance();
  */
 const useSubscribedBalance = () => {
     const [balance, setBalance] = useState(balanceStore.get());
@@ -55,7 +54,7 @@ const useSubscribedBalance = () => {
     }, []);
 
     return {
-        ...balance,
+        data: balance,
         setBalanceData: (data: TBalance) => {
             balanceStore.set(data);
         },

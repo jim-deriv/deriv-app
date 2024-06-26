@@ -10,7 +10,7 @@ import './AppContent.scss';
 const AppContent: React.FC = () => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const { i18n } = useTranslation();
-    const { data: balanceData, isSubscribed, subscribe, unsubscribe, ...rest } = useBalanceSubscription();
+    const { data: balanceData, isSubscribed, subscribe, unsubscribe } = useBalanceSubscription();
     const { isSuccess } = useAuthorize();
     const { setBalanceData } = useSubscribedBalance();
 
@@ -44,8 +44,8 @@ const AppContent: React.FC = () => {
     }, [balanceData, isSubscribed, isSuccess, subscribe, unsubscribe]);
 
     useEffect(() => {
-        setBalanceData({ data: balanceData, ...rest });
-    }, [balanceData, rest, setBalanceData]);
+        setBalanceData({ ...balanceData });
+    }, [balanceData, setBalanceData]);
 
     return (
         <div className='wallets-app' key={`wallets_app_${i18n.language}`}>
