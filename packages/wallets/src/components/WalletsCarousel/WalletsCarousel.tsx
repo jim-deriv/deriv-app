@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useActiveWalletAccount } from '@deriv/api-v2';
 import { displayMoney } from '@deriv/api-v2/src/utils';
+import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 import { AccountsList } from '../AccountsList';
 import { WalletsCarouselContent } from '../WalletsCarouselContent';
 import { WalletsCarouselHeader } from '../WalletsCarouselHeader';
 import './WalletsCarousel.scss';
-import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 
 const WalletsCarousel = () => {
     const { data: activeWallet, isLoading: isActiveWalletLoading } = useActiveWalletAccount();

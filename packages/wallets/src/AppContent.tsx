@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuthorize, useBalanceSubscription } from '@deriv/api-v2';
+import useSubscribedBalance from './hooks/useSubscribedBalance';
 import { defineViewportHeight } from './utils/utils';
 import { WalletLanguageSidePanel } from './components';
 import { Router } from './routes';
 import './AppContent.scss';
-import { useAuthorize, useBalanceSubscription } from '@deriv/api-v2';
-import useSubscribedBalance from './hooks/useSubscribedBalance';
 
 const AppContent: React.FC = () => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);

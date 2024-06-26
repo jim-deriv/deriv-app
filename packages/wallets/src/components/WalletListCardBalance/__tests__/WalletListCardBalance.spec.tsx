@@ -1,8 +1,8 @@
 import React from 'react';
 import { useActiveWalletAccount } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
-import WalletListCardBalance from '../WalletListCardBalance';
 import useSubscribedBalance from '../../../hooks/useSubscribedBalance';
+import WalletListCardBalance from '../WalletListCardBalance';
 
 jest.mock('@deriv/api-v2', () => ({
     useActiveWalletAccount: jest.fn(),

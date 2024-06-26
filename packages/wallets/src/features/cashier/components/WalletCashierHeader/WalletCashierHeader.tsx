@@ -14,9 +14,9 @@ import {
 import { WalletCurrencyIcon, WalletGradientBackground, WalletText } from '../../../../components';
 import { WalletListCardBadge } from '../../../../components/WalletListCardBadge';
 import useDevice from '../../../../hooks/useDevice';
+import useSubscribedBalance from '../../../../hooks/useSubscribedBalance';
 import i18n from '../../../../translations/i18n';
 import './WalletCashierHeader.scss';
-import useSubscribedBalance from '../../../../hooks/useSubscribedBalance';
 
 type TProps = {
     hideWalletDetails: boolean;

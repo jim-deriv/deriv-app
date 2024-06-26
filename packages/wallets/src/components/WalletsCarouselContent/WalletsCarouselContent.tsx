@@ -3,6 +3,7 @@ import useEmblaCarousel, { EmblaCarouselType, EmblaEventType } from 'embla-carou
 import { useHistory } from 'react-router-dom';
 import { useActiveWalletAccount, useCurrencyConfig, useMobileCarouselWalletsList } from '@deriv/api-v2';
 import { displayMoney } from '@deriv/api-v2/src/utils';
+import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 import useWalletAccountSwitcher from '../../hooks/useWalletAccountSwitcher';
 import { THooks } from '../../types';
 import { ProgressBar, WalletText } from '../Base';
@@ -10,7 +11,6 @@ import { WalletsCarouselLoader } from '../SkeletonLoader';
 import { WalletCard } from '../WalletCard';
 import { WalletListCardActions } from '../WalletListCardActions';
 import './WalletsCarouselContent.scss';
-import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 
 const numberWithinRange = (number: number, min: number, max: number): number => Math.min(Math.max(number, min), max);
 

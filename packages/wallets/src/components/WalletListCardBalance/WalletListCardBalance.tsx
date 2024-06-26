@@ -1,9 +1,9 @@
 import React from 'react';
 import { useActiveWalletAccount } from '@deriv/api-v2';
 import { displayMoney } from '@deriv/api-v2/src/utils';
+import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 import { WalletText } from '../Base';
 import './WalletListCardBalance.scss';
-import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 
 const WalletListCardBalance = () => {
     const { data: activeWallet, isInitializing: isActiveWalletInitializing } = useActiveWalletAccount();

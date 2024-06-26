@@ -2,12 +2,12 @@ import React, { ComponentProps, useCallback, useEffect, useMemo, useState } from
 import { Trans, useTranslation } from 'react-i18next';
 import { useActiveWalletAccount, useWalletAccountsList } from '@deriv/api-v2';
 import { displayMoney } from '@deriv/api-v2/src/utils';
+import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 import useWalletAccountSwitcher from '../../hooks/useWalletAccountSwitcher';
 import { THooks } from '../../types';
 import { WalletDropdown, WalletText } from '../Base';
 import { WalletCurrencyIcon } from '../WalletCurrencyIcon';
 import './WalletListCardDropdown.scss';
-import useSubscribedBalance from '../../hooks/useSubscribedBalance';
 
 type WalletList = ComponentProps<typeof WalletDropdown>['list'] | undefined;
 
