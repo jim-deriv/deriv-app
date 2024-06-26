@@ -16,11 +16,13 @@
         height: fit-content;
     }
 
-    &__balance {
-        &--loader {
-            width: 18.8rem;
-            height: 3.6rem;
-            opacity: 0.4;
+    &__loader {
+        width: 14rem;
+        height: 3.6rem;
+
+        @include mobile {
+            width: 12rem;
+            height: 2.6rem;
         }
     }
 
