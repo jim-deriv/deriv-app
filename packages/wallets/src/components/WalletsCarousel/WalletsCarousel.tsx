@@ -12,17 +12,23 @@ const WalletsCarousel = () => {
     const [hideWalletsCarouselHeader, setHideWalletsCarouselHeader] = useState(true);
     const contentRef = useRef(null);
 
-    const { data: balanceData } = useSubscribedBalance();
+    const { data: balanceData, isLoading: isBalanceLoading } = useSubscribedBalance();
 
     const displayedBalance = useMemo(() => {
         const balance = balanceData?.[activeWallet?.loginid ?? '']?.balance;
 
-        if (balance === undefined) return;
+        if (isBalanceLoading) return;
 
-        return displayMoney?.(balance, activeWallet?.currency || '', {
+        return displayMoney?.(balance ?? 0, activeWallet?.currency || '', {
             fractional_digits: activeWallet?.currency_config?.fractional_digits,
         });
-    }, [balanceData, activeWallet]);
+    }, [
+        balanceData,
+        activeWallet?.loginid,
+        activeWallet?.currency,
+        activeWallet?.currency_config?.fractional_digits,
+        isBalanceLoading,
+    ]);
 
     // useEffect hook to handle event for hiding/displaying WalletsCarouselHeader
     // walletsCarouselHeader will be displayed when WalletsCarouselContent is almost out of viewport
@@ -57,6 +63,7 @@ const WalletsCarousel = () => {
                         balance={displayedBalance}
                         currency={activeWallet?.currency || 'USD'}
                         hidden={hideWalletsCarouselHeader}
+                        isBalanceLoading={isBalanceLoading}
                         isDemo={activeWallet?.is_virtual}
                     />
                 )}

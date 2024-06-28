@@ -7,9 +7,9 @@ import './WalletListCardBalance.scss';
 
 const WalletListCardBalance = () => {
     const { data: activeWallet, isInitializing: isActiveWalletInitializing, isLoading } = useActiveWalletAccount();
-    const { data: balanceData } = useSubscribedBalance();
+    const { data: balanceData, isLoading: isBalanceLoading } = useSubscribedBalance();
     const balance = balanceData?.[activeWallet?.loginid ?? '']?.balance;
-    const showLoader = balance === undefined || isActiveWalletInitializing || isLoading;
+    const showLoader = isBalanceLoading || isActiveWalletInitializing || isLoading;
 
     return (
         <div className='wallets-balance__container'>
@@ -20,7 +20,7 @@ const WalletListCardBalance = () => {
                 />
             ) : (
                 <WalletText align='right' size='xl' weight='bold'>
-                    {displayMoney?.(balance, activeWallet?.currency ?? '', {
+                    {displayMoney?.(balance ?? 0, activeWallet?.currency ?? '', {
                         fractional_digits: activeWallet?.currency_config?.fractional_digits,
                     })}
                 </WalletText>

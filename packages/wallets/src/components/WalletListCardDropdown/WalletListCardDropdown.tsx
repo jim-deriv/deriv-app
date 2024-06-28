@@ -16,7 +16,7 @@ const WalletListCardDropdown = () => {
     const { data: activeWallet } = useActiveWalletAccount();
     const switchWalletAccount = useWalletAccountSwitcher();
     const { t } = useTranslation();
-    const { data: balanceData } = useSubscribedBalance();
+    const { data: balanceData, isLoading: isBalanceLoading } = useSubscribedBalance();
 
     const [inputWidth, setInputWidth] = useState('auto');
     const loginId = activeWallet?.loginid;
@@ -50,7 +50,7 @@ const WalletListCardDropdown = () => {
                                 <WalletText size='2xs'>
                                     <Trans defaults={`${wallet.currency} Wallet`} />
                                 </WalletText>
-                                {balance === undefined ? (
+                                {isBalanceLoading ? (
                                     <div
                                         className='wallets-skeleton wallets-list-card-dropdown__balance-loader'
                                         data-testid='dt_wallets_list_card_dropdown_balance_loader'
@@ -58,7 +58,7 @@ const WalletListCardDropdown = () => {
                                 ) : (
                                     <WalletText size='sm' weight='bold'>
                                         <Trans
-                                            defaults={displayMoney?.(balance, wallet?.currency || '', {
+                                            defaults={displayMoney?.(balance ?? 0, wallet?.currency || '', {
                                                 fractional_digits: wallet?.currency_config?.fractional_digits,
                                             })}
                                         />
@@ -71,7 +71,7 @@ const WalletListCardDropdown = () => {
                     value: wallet.loginid,
                 };
             });
-    }, [balanceData?.accounts, generateTitleText, wallets]);
+    }, [balanceData, generateTitleText, isBalanceLoading, wallets]);
 
     return (
         <div className='wallets-list-card-dropdown'>

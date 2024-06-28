@@ -65,7 +65,7 @@ const virtualAccountTabs = [
 
 const WalletCashierHeader: React.FC<TProps> = ({ hideWalletDetails }) => {
     const { data: activeWallet } = useActiveWalletAccount();
-    const { data: balanceData } = useSubscribedBalance();
+    const { data: balanceData, isLoading: isBalanceLoading } = useSubscribedBalance();
 
     const { isMobile } = useDevice();
     const activeTabRef = useRef<HTMLButtonElement>(null);
@@ -110,14 +110,14 @@ const WalletCashierHeader: React.FC<TProps> = ({ hideWalletDetails }) => {
                                 />
                             )}
                         </div>
-                        {balance === undefined ? (
+                        {isBalanceLoading ? (
                             <div
                                 className='wallets-skeleton wallets-cashier-header__loader'
                                 data-testid='dt_wallets_cashier_header_balance_loader'
                             />
                         ) : (
                             <WalletText color={activeWallet?.is_virtual ? 'white' : 'general'} size='xl' weight='bold'>
-                                {displayMoney?.(balance, activeWallet?.currency || '', {
+                                {displayMoney?.(balance ?? 0, activeWallet?.currency || '', {
                                     fractional_digits: activeWallet?.currency_config?.fractional_digits,
                                 })}
                             </WalletText>

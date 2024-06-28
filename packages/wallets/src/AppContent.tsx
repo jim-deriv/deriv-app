@@ -10,7 +10,13 @@ import './AppContent.scss';
 const AppContent: React.FC = () => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const { i18n } = useTranslation();
-    const { data: balanceData, isSubscribed, subscribe, unsubscribe } = useBalanceSubscription();
+    const {
+        data: balanceData,
+        isLoading: isBalanceLoading,
+        isSubscribed,
+        subscribe,
+        unsubscribe,
+    } = useBalanceSubscription();
     const { isSuccess } = useAuthorize();
     const { data: existingData, setBalanceData } = useSubscribedBalance();
 
@@ -62,8 +68,8 @@ const AppContent: React.FC = () => {
                 },
             };
         }
-        setBalanceData(newData);
-    }, [balanceData, existingData, setBalanceData]);
+        setBalanceData(newData, isBalanceLoading);
+    }, [balanceData, existingData, isBalanceLoading, setBalanceData]);
 
     return (
         <div className='wallets-app' key={`wallets_app_${i18n.language}`}>
