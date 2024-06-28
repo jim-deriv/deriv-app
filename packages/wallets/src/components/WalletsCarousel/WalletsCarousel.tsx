@@ -15,7 +15,7 @@ const WalletsCarousel = () => {
     const { data: balanceData } = useSubscribedBalance();
 
     const displayedBalance = useMemo(() => {
-        const balance = balanceData?.accounts?.[activeWallet?.loginid ?? '']?.balance;
+        const balance = balanceData?.[activeWallet?.loginid ?? '']?.balance;
 
         if (balance === undefined) return;
 

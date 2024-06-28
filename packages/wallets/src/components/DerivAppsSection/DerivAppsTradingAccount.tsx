@@ -16,7 +16,7 @@ const DerivAppsTradingAccount = () => {
     const { data: balanceData } = useSubscribedBalance();
     const { data: activeWallet } = useActiveWalletAccount();
     const { data: activeLinkedToTradingAccount } = useActiveLinkedToTradingAccount();
-    const balance = balanceData?.accounts?.[activeLinkedToTradingAccount?.loginid ?? '']?.balance;
+    const balance = balanceData?.[activeLinkedToTradingAccount?.loginid ?? '']?.balance;
 
     return (
         <div className='wallets-deriv-apps-section wallets-deriv-apps-section__border'>

@@ -73,7 +73,7 @@ const WalletCashierHeader: React.FC<TProps> = ({ hideWalletDetails }) => {
     const location = useLocation();
 
     const tabs = activeWallet?.is_virtual ? virtualAccountTabs : realAccountTabs;
-    const balance = balanceData?.accounts?.[activeWallet?.loginid ?? '']?.balance;
+    const balance = balanceData?.[activeWallet?.loginid ?? '']?.balance;
 
     useEffect(() => {
         if (isMobile && activeTabRef.current) {

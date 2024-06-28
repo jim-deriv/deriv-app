@@ -232,10 +232,9 @@ const WalletsCarouselContent: React.FC = () => {
                         {walletAccountsList?.map((account, index) => (
                             <WalletCard
                                 balance={
-                                    account.loginid === activeWallet?.loginid &&
-                                    balanceData?.loginid === selectedLoginId
+                                    account.loginid === activeWallet?.loginid
                                         ? displayMoney(
-                                              balanceData?.accounts?.[account.loginid]?.balance ?? account.balance,
+                                              balanceData?.[account.loginid]?.balance ?? account.balance,
                                               activeWallet?.currency ?? '',
                                               {
                                                   fractional_digits: activeWallet?.currency_config?.fractional_digits,

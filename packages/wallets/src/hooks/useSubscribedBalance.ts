@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useBalanceSubscription } from '@deriv/api-v2';
 import Observable from '../utils/observable';
 
-type TBalance = ReturnType<typeof useBalanceSubscription>['data'];
+type TBalance = ReturnType<typeof useBalanceSubscription>['data']['accounts'];
 
 const balanceStore = new Observable<TBalance | undefined>(undefined);
 
@@ -15,7 +15,7 @@ const balanceStore = new Observable<TBalance | undefined>(undefined);
 const useSubscribedBalance = () => {
     const [balance, setBalance] = useState(balanceStore.get());
     useEffect(() => {
-        return balanceStore.subscribe(setBalance); // subscribe setBalance to the balance store and return the cleanup function
+        return balanceStore.subscribe(newData => setBalance(prevData => ({ ...prevData, ...newData }))); // subscribe setBalance to the balance store and return the cleanup function
     }, []);
 
     return {

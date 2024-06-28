@@ -12,7 +12,7 @@ const AppContent: React.FC = () => {
     const { i18n } = useTranslation();
     const { data: balanceData, isSubscribed, subscribe, unsubscribe } = useBalanceSubscription();
     const { isSuccess } = useAuthorize();
-    const { setBalanceData } = useSubscribedBalance();
+    const { data: existingData, setBalanceData } = useSubscribedBalance();
 
     useEffect(() => {
         const handleShortcutKey = (event: globalThis.KeyboardEvent) => {
@@ -34,18 +34,36 @@ const AppContent: React.FC = () => {
 
     useEffect(() => {
         if (!isSuccess) return;
-        if (isSubscribed) unsubscribe();
         subscribe({
             account: 'all',
         });
         return () => {
             if (isSubscribed) unsubscribe();
         };
-    }, [balanceData, isSubscribed, isSuccess, subscribe, unsubscribe]);
+    }, [isSubscribed, isSuccess, subscribe, unsubscribe]);
 
     useEffect(() => {
-        setBalanceData({ ...balanceData });
-    }, [balanceData, setBalanceData]);
+        let newData = balanceData?.accounts;
+        if (
+            !balanceData?.accounts &&
+            balanceData?.balance !== undefined &&
+            balanceData.loginid &&
+            balanceData.currency
+        ) {
+            const { balance, currency, loginid } = balanceData;
+            newData = {
+                [loginid]: {
+                    balance,
+                    converted_amount: balance,
+                    currency,
+                    demo_account: existingData?.[loginid]?.demo_account ?? 0,
+                    status: existingData?.[loginid]?.status ?? 0,
+                    type: existingData?.[loginid]?.type ?? 'deriv',
+                },
+            };
+        }
+        setBalanceData(newData);
+    }, [balanceData, existingData, setBalanceData]);
 
     return (
         <div className='wallets-app' key={`wallets_app_${i18n.language}`}>

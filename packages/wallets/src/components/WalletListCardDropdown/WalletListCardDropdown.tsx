@@ -40,7 +40,7 @@ const WalletListCardDropdown = () => {
         return wallets
             ?.filter(wallet => !wallet.is_virtual)
             ?.map(wallet => {
-                const balance = balanceData?.accounts?.[wallet.loginid]?.balance;
+                const balance = balanceData?.[wallet.loginid]?.balance;
 
                 return {
                     listItem: (
