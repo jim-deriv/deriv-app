@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import useSubscribedBalance from '../useSubscribedBalance';
+import Observable from '../../utils/observable';
 
 const mockData: Parameters<ReturnType<typeof useSubscribedBalance>['setBalanceData']>[0] = {
     CR1: {
@@ -29,5 +30,16 @@ describe('useSubscribedBalance', () => {
         expect(result.current.data).toEqual(mockData);
         act(() => setBalanceData(mockData));
         expect(result.current.data).toEqual(mockData);
+    });
+    it('executes the clean-up function when the component unmounts', () => {
+        const mockUnSubscribe = jest.fn();
+        jest.spyOn(Observable.prototype, 'unsubscribe').mockImplementation(mockUnSubscribe);
+        const { result, unmount } = renderHook(() => useSubscribedBalance());
+        const { setBalanceData } = result.current;
+
+        act(() => setBalanceData(mockData));
+        expect(result.current.data).toEqual(mockData);
+        unmount();
+        expect(mockUnSubscribe).toHaveBeenCalledTimes(1);
     });
 });
