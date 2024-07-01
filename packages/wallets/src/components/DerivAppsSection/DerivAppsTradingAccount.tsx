@@ -13,7 +13,7 @@ const DerivAppsTradingAccount = () => {
     const { isMobile } = useDevice();
     const history = useHistory();
     const { data: authorizeData } = useAuthorize();
-    const { data: balanceData } = useSubscribedBalance();
+    const { data: balanceData, isLoading: isBalanceLoading } = useSubscribedBalance();
     const { data: activeWallet } = useActiveWalletAccount();
     const { data: activeLinkedToTradingAccount } = useActiveLinkedToTradingAccount();
     const balance = balanceData?.[activeLinkedToTradingAccount?.loginid ?? '']?.balance;
@@ -28,7 +28,7 @@ const DerivAppsTradingAccount = () => {
                     <WalletText size='sm'>Options</WalletText>
                     <WalletListCardBadge isDemo={activeWallet?.is_virtual} label={activeWallet?.landing_company_name} />
                 </div>
-                {balanceData === undefined ? (
+                {isBalanceLoading ? (
                     <div className='wallets-skeleton wallets-deriv-apps-balance-loader' />
                 ) : (
                     <WalletText size='sm' weight='bold'>
