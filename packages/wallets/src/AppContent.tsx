@@ -49,6 +49,7 @@ const AppContent: React.FC = () => {
     }, [isSubscribed, isSuccess, subscribe, unsubscribe]);
 
     useEffect(() => {
+        if (!isSuccess || isBalanceLoading || !balanceData) return;
         let newData = balanceData?.accounts;
         if (
             !balanceData?.accounts &&
@@ -58,6 +59,7 @@ const AppContent: React.FC = () => {
         ) {
             const { balance, currency, loginid } = balanceData;
             newData = {
+                ...existingData,
                 [loginid]: {
                     balance,
                     converted_amount: balance,
@@ -68,8 +70,8 @@ const AppContent: React.FC = () => {
                 },
             };
         }
-        setBalanceData(newData, isBalanceLoading);
-    }, [balanceData, existingData, isBalanceLoading, setBalanceData]);
+        setBalanceData(newData);
+    }, [balanceData, existingData, isBalanceLoading, isSuccess, setBalanceData]);
 
     return (
         <div className='wallets-app' key={`wallets_app_${i18n.language}`}>

@@ -35,10 +35,8 @@ describe('<WalletCashierHeader/>', () => {
         });
         (useSubscribedBalance as jest.Mock).mockReturnValue({
             data: {
-                accounts: {
-                    CR1: {
-                        balance: 10,
-                    },
+                CR1: {
+                    balance: 10,
                 },
             },
             setBalanceData: jest.fn(),

@@ -14,16 +14,14 @@ const balanceStore = new Observable<TBalance | undefined>(undefined);
  */
 const useSubscribedBalance = () => {
     const [balance, setBalance] = useState(balanceStore.get());
-    const [isLoading, setLoading] = useState(false);
     useEffect(() => {
-        return balanceStore.subscribe(newData => setBalance(prevData => ({ ...prevData, ...newData }))); // subscribe setBalance to the balance store and return the cleanup function
+        return balanceStore.subscribe(setBalance); // subscribe setBalance to the balance store and return the cleanup function
     }, []);
 
     return {
         data: balance,
-        isLoading,
-        setBalanceData: (data: TBalance, isLoading: boolean) => {
-            setLoading(isLoading);
+        isLoading: !balance,
+        setBalanceData: (data: TBalance) => {
             balanceStore.set(data);
         },
     };

@@ -34,10 +34,8 @@ describe('WalletListCardBalance', () => {
         });
         (useSubscribedBalance as jest.Mock).mockReturnValue({
             data: {
-                accounts: {
-                    '123': {
-                        balance: 100,
-                    },
+                '123': {
+                    balance: 100,
                 },
             },
             setBalanceData: jest.fn(),
