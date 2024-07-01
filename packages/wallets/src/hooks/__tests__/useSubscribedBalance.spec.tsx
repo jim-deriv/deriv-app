@@ -2,15 +2,13 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import useSubscribedBalance from '../useSubscribedBalance';
 
 const mockData: Parameters<ReturnType<typeof useSubscribedBalance>['setBalanceData']>[0] = {
-    accounts: {
-        CR1: {
-            balance: 10,
-            converted_amount: 10,
-            currency: 'USD',
-            demo_account: 0,
-            status: 1,
-            type: 'deriv',
-        },
+    CR1: {
+        balance: 10,
+        converted_amount: 10,
+        currency: 'USD',
+        demo_account: 0,
+        status: 1,
+        type: 'deriv',
     },
 };
 
